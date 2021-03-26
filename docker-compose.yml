@@ -1,0 +1,21 @@
+version: '3'
+services: 
+  web:
+    stdin_open: true
+    build:
+      context: . # current directory
+      dockerfile: Dockerfile.dev
+    ports: 
+      - "3000:3000"
+    volumes: 
+      - /app/node_modules # do not copy this as docker file will install these node modules
+      - .:/app # copy everything in the pwd to /app folder
+  tests:
+    stdin_open: true
+    build:
+      context: . # current directory
+      dockerfile: Dockerfile.dev
+    volumes: 
+      - /app/node_modules # do not copy this as docker file will install these node modules
+      - .:/app # copy everything in the pwd to /app folder
+    command: ["npm", "run", "test"]
